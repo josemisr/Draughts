@@ -2,6 +2,7 @@ package es.urjccode.mastercloudapps.adcs.draughts.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Game {
 
@@ -36,26 +37,25 @@ public class Game {
         Error error = null;
         List<Coordinate> removedCoordinates = new ArrayList<Coordinate>();
         int pair = 0;
-        boolean isnotEating=false;
-
+        List<Coordinate> removedCoordinatesBadMovement = new ArrayList<Coordinate>();
         do {
             error = this.isCorrectPairMove(pair, coordinates);
             if (error == null) {
                 List<Coordinate> mv= this.getCoordinatesWithActualColor();
-                isnotEating = isPossibleToEat(coordinates[pair]);
-                if(removedCoordinates.size() ==0 && !isnotEating){
+                if(removedCoordinates.size() ==0 ){
                     for (Coordinate coordinate : mv)
                         if(this.getPiece(coordinate)!= this.getPiece(coordinates[pair]))
-                            this.badMovement(removedCoordinates, coordinate);
+                            this.badMovement(removedCoordinatesBadMovement, coordinate);
                 }
                 this.pairMove(removedCoordinates, pair, coordinates);
-                if(isnotEating && removedCoordinates.size()==0){
-                    removedCoordinates.add(0, coordinates[pair]);
-                    this.board.remove(coordinates[pair]);
+                if(removedCoordinates.size()==0 && removedCoordinatesBadMovement.size()>0 ){
+                    int number = new Random().nextInt(removedCoordinatesBadMovement.size());;
+                    removedCoordinates.add(0,removedCoordinatesBadMovement.get(number));//borra la actual, no for removing
+                    this.board.remove(removedCoordinatesBadMovement.get(number));
                 }
                 pair++;
             }
-        } while (pair < coordinates.length - 1 && error == null);
+        }  while (pair < coordinates.length - 1 && error == null);
         error = this.isCorrectGlobalMove(error, removedCoordinates, coordinates);
         if (error == null)
             this.turn.change();
@@ -93,11 +93,8 @@ public class Game {
     }
 
     private void badMovement(List<Coordinate> removedCoordinates, Coordinate coordinate) {
-
-        if (this.isPossibleToEat(coordinate) && removedCoordinates.size() ==0) {
-
-            removedCoordinates.add(0, coordinate);//borra la actual, no for removing
-            this.board.remove(coordinate);
+        if (this.isPossibleToEat(coordinate)) {
+            removedCoordinates.add(0, coordinate);
         }
     }
 
