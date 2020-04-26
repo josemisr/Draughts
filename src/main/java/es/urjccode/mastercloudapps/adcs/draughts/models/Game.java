@@ -78,8 +78,6 @@ public class Game {
         this.board.move(coordinates[pair], coordinates[pair + 1]);
         if (this.board.getPiece(coordinates[pair + 1]).isLimit(coordinates[pair + 1])) {
             Color color = this.board.getColor(coordinates[pair + 1]);
-            this.board.remove(coordinates[pair + 1]);
-            this.board.put(coordinates[pair + 1], new Draught(color));
         }
     }
 
@@ -124,20 +122,6 @@ public class Game {
     }
 
     private boolean isPosibleToEatDraught(Piece piece, Coordinate coordinate){
-        Draught draught = new Draught(piece.getColor());
-        List<Coordinate> coordinatesToMove = new ArrayList<Coordinate>();
-        coordinatesToMove.add(coordinate);
-        for(int i = 7; i >= 2; i--)
-        {
-            coordinatesToMove.addAll(coordinate.getDiagonalCoordinates(i));
-        }
-        Coordinate[] myCoordinatesToMoveArray = new Coordinate[coordinatesToMove.size()];
-        coordinatesToMove.toArray(myCoordinatesToMoveArray);
-        List<Piece> betweenDiagonalPieces = this.board.getBetweenDiagonalPieces(myCoordinatesToMoveArray[0], myCoordinatesToMoveArray[1]);
-        for(int i = 1; i < myCoordinatesToMoveArray.length; i++)
-        {
-            return betweenDiagonalPieces.size()> 0 && draught.isCorrectDiagonalMovement(betweenDiagonalPieces.size(),0,myCoordinatesToMoveArray[i])==null;
-        }
         return false;
     }
 
