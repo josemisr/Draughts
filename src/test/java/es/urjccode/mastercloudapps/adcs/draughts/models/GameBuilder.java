@@ -53,8 +53,6 @@ public class GameBuilder {
             Color color = this.getColor(string.charAt(j));
             if (color != null) {
                 Piece piece = new Pawn(color);
-                if (Character.isUpperCase(string.charAt(j)))
-                    piece = new Draught(color);
                 board.put(new Coordinate(row, j), piece);
             }
         }
