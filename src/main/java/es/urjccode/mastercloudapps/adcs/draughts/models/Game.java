@@ -43,7 +43,7 @@ public class Game {
             if (error == null) {
                 this.checkMovementsColor(canEatCoordinates,removedCoordinates,pair,coordinates);
                 this.pairMove(removedCoordinates, pair, coordinates);
-                removeRandomBadMovement(canEatCoordinates,removedCoordinates);
+                this.removeRandomBadMovement(canEatCoordinates,removedCoordinates);
                 pair++;
             }
         }  while (pair < coordinates.length - 1 && error == null);
@@ -82,9 +82,10 @@ public class Game {
             this.board.put(coordinates[pair + 1], new Draught(color));
         }
     }
+
     private void checkMovementsColor(List<Coordinate> canEatCoordinates,List<Coordinate> removedCoordinates,int pair, Coordinate...coordinates){
         List<Coordinate> mv= this.getCoordinatesWithActualColor();
-        if(removedCoordinates.size() ==0 ){
+        if(removedCoordinates.size() == 0 ){
             for (Coordinate coordinate : mv)
                 if(this.getPiece(coordinate)!= this.getPiece(coordinates[pair]))
                     this.checkPossibleBadMovement(canEatCoordinates, coordinate);
@@ -92,16 +93,16 @@ public class Game {
     }
 
     private void removeRandomBadMovement(List<Coordinate> canEatCoordinates,List<Coordinate> removedCoordinates){
-        if(removedCoordinates.size()==0 && canEatCoordinates.size()>0 ){
+        if(removedCoordinates.size()== 0 && canEatCoordinates.size()> 0 ){
             int number = new Random().nextInt(canEatCoordinates.size());;
             removedCoordinates.add(0,canEatCoordinates.get(number));
             this.board.remove(canEatCoordinates.get(number));
         }
     }
+
     private void checkPossibleBadMovement(List<Coordinate> removedCoordinates, Coordinate coordinate) {
-        if (this.isPossibleToEat(coordinate)) {
+        if (this.isPossibleToEat(coordinate))
             removedCoordinates.add(0, coordinate);
-        }
     }
 
     private boolean isPossibleToEat(Coordinate coordinate){
@@ -135,9 +136,7 @@ public class Game {
         List<Piece> betweenDiagonalPieces = this.board.getBetweenDiagonalPieces(myCoordinatesToMoveArray[0], myCoordinatesToMoveArray[1]);
         for(int i = 1; i < myCoordinatesToMoveArray.length; i++)
         {
-            if (betweenDiagonalPieces.size()>0 && draught.isCorrectDiagonalMovement(betweenDiagonalPieces.size(),0,myCoordinatesToMoveArray[i])==null) {
-                return true;
-            }
+            return betweenDiagonalPieces.size()> 0 && draught.isCorrectDiagonalMovement(betweenDiagonalPieces.size(),0,myCoordinatesToMoveArray[i])==null;
         }
         return false;
     }
