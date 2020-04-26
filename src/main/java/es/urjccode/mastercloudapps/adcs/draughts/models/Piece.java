@@ -2,10 +2,11 @@ package es.urjccode.mastercloudapps.adcs.draughts.models;
 
 import java.util.List;
 
-public abstract class Piece {
+public class Piece {
 
 	protected Color color;
 	private static String[] CODES = {"b", "n"};
+    private static final int MAX_DISTANCE = 2;
 
 	Piece(Color color) {
 		assert color != null;
@@ -23,7 +24,16 @@ public abstract class Piece {
 		return this.isCorrectDiagonalMovement(betweenDiagonalPieces.size(), pair, coordinates);
 	}
 
-	abstract Error isCorrectDiagonalMovement(int amountBetweenDiagonalPieces, int pair, Coordinate... coordinates);
+    Error isCorrectDiagonalMovement(int amountBetweenDiagonalPieces, int pair, Coordinate... coordinates) {
+        if (!this.isAdvanced(coordinates[pair], coordinates[pair+1]))
+            return Error.NOT_ADVANCED;
+        int distance = coordinates[pair].getDiagonalDistance(coordinates[pair+1]);
+        if (distance > MAX_DISTANCE)
+            return Error.TOO_MUCH_ADVANCED;
+        if (distance == MAX_DISTANCE && amountBetweenDiagonalPieces != 1)
+            return Error.WITHOUT_EATING;
+        return null;
+    }
 
 	boolean isLimit(Coordinate coordinate) {
 		return coordinate.isFirst() && this.getColor() == Color.WHITE
