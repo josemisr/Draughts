@@ -41,18 +41,9 @@ public class Game {
         do {
             error = this.isCorrectPairMove(pair, coordinates);
             if (error == null) {
-                List<Coordinate> mv= this.getCoordinatesWithActualColor();
-                if(removedCoordinates.size() ==0 ){
-                    for (Coordinate coordinate : mv)
-                        if(this.getPiece(coordinate)!= this.getPiece(coordinates[pair]))
-                            this.checkPossibleBadMovement(canEatCoordinates, coordinate);
-                }
+                this.checkMovementsColor(canEatCoordinates,removedCoordinates,pair,coordinates);
                 this.pairMove(removedCoordinates, pair, coordinates);
-                if(removedCoordinates.size()==0 && canEatCoordinates.size()>0 ){
-                    int number = new Random().nextInt(canEatCoordinates.size());;
-                    removedCoordinates.add(0,canEatCoordinates.get(number));//borra la actual, no for removing
-                    this.board.remove(canEatCoordinates.get(number));
-                }
+                removeRandomBadMovement(canEatCoordinates,removedCoordinates);
                 pair++;
             }
         }  while (pair < coordinates.length - 1 && error == null);
@@ -91,7 +82,22 @@ public class Game {
             this.board.put(coordinates[pair + 1], new Draught(color));
         }
     }
+    private void checkMovementsColor(List<Coordinate> canEatCoordinates,List<Coordinate> removedCoordinates,int pair, Coordinate...coordinates){
+        List<Coordinate> mv= this.getCoordinatesWithActualColor();
+        if(removedCoordinates.size() ==0 ){
+            for (Coordinate coordinate : mv)
+                if(this.getPiece(coordinate)!= this.getPiece(coordinates[pair]))
+                    this.checkPossibleBadMovement(canEatCoordinates, coordinate);
+        }
+    }
 
+    private void removeRandomBadMovement(List<Coordinate> canEatCoordinates,List<Coordinate> removedCoordinates){
+        if(removedCoordinates.size()==0 && canEatCoordinates.size()>0 ){
+            int number = new Random().nextInt(canEatCoordinates.size());;
+            removedCoordinates.add(0,canEatCoordinates.get(number));
+            this.board.remove(canEatCoordinates.get(number));
+        }
+    }
     private void checkPossibleBadMovement(List<Coordinate> removedCoordinates, Coordinate coordinate) {
         if (this.isPossibleToEat(coordinate)) {
             removedCoordinates.add(0, coordinate);
