@@ -33,7 +33,7 @@ public class CorrectMovesPawnGameTest extends GameTest {
             "        ",
             "        ");
         this.assertMove(
-            new Coordinate(5, 0), 
+            new Coordinate(5, 0),
             new Coordinate(4, 1)
         );
     }
@@ -59,7 +59,7 @@ public class CorrectMovesPawnGameTest extends GameTest {
             "        ",
             "        ");
         this.assertMove(
-            new Coordinate(2, 3), 
+            new Coordinate(2, 3),
             new Coordinate(3, 4));
     }
 
@@ -107,7 +107,7 @@ public class CorrectMovesPawnGameTest extends GameTest {
             "        ",
             "        ");
         this.assertMove(
-            new Coordinate(3, 0), 
+            new Coordinate(3, 0),
             new Coordinate(5, 2));
     }
 
@@ -132,7 +132,7 @@ public class CorrectMovesPawnGameTest extends GameTest {
             "        ",
             "        ");
         this.assertMove(
-            new Coordinate(5, 0), 
+            new Coordinate(5, 0),
             new Coordinate(3, 2),
             new Coordinate(1, 4));
     }
@@ -158,13 +158,13 @@ public class CorrectMovesPawnGameTest extends GameTest {
             "     n  ",
             "        ");
         this.assertMove(
-            new Coordinate(2, 1), 
+            new Coordinate(2, 1),
             new Coordinate(4, 3),
             new Coordinate(6, 5));
     }
 
     @Test
-    public void testGivenGameWhenWhitePawnAtLimitThenNewDraugts(){
+    public void testGivenGameWhenWhitePawnAtLimitThenPawn(){
         this.setGame(Color.WHITE,
             "        ",
             "b       ",
@@ -175,7 +175,7 @@ public class CorrectMovesPawnGameTest extends GameTest {
             "        ",
             "        ");
         this.setExpectedGame(Color.BLACK,
-            " B      ",
+            " b      ",
             "        ",
             "        ",
             "        ",
@@ -184,12 +184,12 @@ public class CorrectMovesPawnGameTest extends GameTest {
             "        ",
             "        ");
         this.assertMove(
-            new Coordinate(1,0), 
+            new Coordinate(1,0),
             new Coordinate(0,1));
     }
 
     @Test
-    public void testGivenGameWhenBlackPawnAtLimitThenNewDraugts(){
+    public void testGivenGameWhenBlackPawnAtLimitThenPawn(){
         this.setGame(Color.BLACK,
             "        ",
             "        ",
@@ -207,9 +207,9 @@ public class CorrectMovesPawnGameTest extends GameTest {
             "        ",
             "        ",
             "        ",
-            "  N     ");
+            "  n     ");
         this.assertMove(
-                new Coordinate(6,3), 
+                new Coordinate(6,3),
                 new Coordinate(7,2));
     }
 

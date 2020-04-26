@@ -104,64 +104,6 @@ public class PlayControllerTest {
     }
 
     @Test
-    public void testGivenPlayControllerWhenMoveAndDraughtCanEatThenRemoveDraught() {
-        Game game = new GameBuilder().rows(
-            "        ",
-            "        ",
-            "        ",
-            "  b n   ",
-            "        ",
-            "b     B ",
-            "        ",
-            "        ").build();
-        playController = new PlayController(game, new State());
-        Coordinate origin = new Coordinate(3, 2);
-        Coordinate target = new Coordinate(2, 1);
-        Coordinate draughtToRemove = new Coordinate(5, 6);
-        assertNotNull(playController.getPiece(draughtToRemove));
-        playController.move(origin, target);
-        assertNull(playController.getPiece(draughtToRemove));
-    }
-
-    @Test
-    public void testGivenPlayControllerWhenMoveAndDraughtCantEatWhenBlackBlocksThenDraught() {
-        Game game = new GameBuilder().rows(
-            "        ",
-            "        ",
-            "        ",
-            "  b n   ",
-            "     n  ",
-            "b     B ",
-            "        ",
-            "        ").build();
-        playController = new PlayController(game, new State());
-        Coordinate origin = new Coordinate(3, 2);
-        Coordinate target = new Coordinate(2, 1);
-        Coordinate draughtToRemove = new Coordinate(5, 6);
-        playController.move(origin, target);
-        assertEquals(playController.getColor(draughtToRemove), Color.WHITE);
-    }
-
-    @Test
-    public void testGivenPlayControllerWhenMoveAndDraughtCantEatWhenWhiteBlocksThenDraught() {
-        Game game = new GameBuilder().rows(
-            "        ",
-            "        ",
-            "   n    ",
-            "        ",
-            "     b  ",
-            "b     B ",
-            "        ",
-            "        ").build();
-        playController = new PlayController(game, new State());
-        Coordinate origin = new Coordinate(4, 5);
-        Coordinate target = new Coordinate(3, 6);
-        Coordinate draughtToRemove = new Coordinate(5, 6);
-        playController.move(origin, target);
-        assertEquals(playController.getColor(draughtToRemove), Color.WHITE);
-    }
-
-    @Test
     public void testGivenPlayControllerWhenMoveAndBlackCanEatThenRemoveBlack() {
         Game game = new GameBuilder().rows(
             "        ",
@@ -183,6 +125,26 @@ public class PlayControllerTest {
         playController.move(origin, target);
         assertEquals(playController.getColor(target), Color.BLACK);
         assertNull(playController.getPiece(blackToRemove));
+    }
+
+
+    @Test
+    public void testGivenPlayControllerWhenMoveAndPieceCantEatWhenBlackBlocksThenPiece() {
+        Game game = new GameBuilder().rows(
+            "        ",
+            "        ",
+            "        ",
+            "  b n   ",
+            "     n  ",
+            "b     b ",
+            "        ",
+            "        ").build();
+        playController = new PlayController(game, new State());
+        Coordinate origin = new Coordinate(3, 2);
+        Coordinate target = new Coordinate(2, 1);
+        Coordinate draughtToRemove = new Coordinate(5, 6);
+        playController.move(origin, target);
+        assertEquals(playController.getColor(draughtToRemove), Color.WHITE);
     }
 
     @Test
