@@ -106,30 +106,37 @@ public class Game {
 
     private boolean isPossibleToEat(Coordinate coordinate){
         Piece piece = this.getPiece(coordinate);
-        if(piece.getCode() == "b" || piece.getCode() == "n") {
-            List<Coordinate> coordinates = coordinate.getDiagonalCoordinates(2);
-            for (Coordinate coor : coordinates) {
-                if (this.isCorrectPairMove(0, coordinate, coor) == null) {
-                    return true;
-                }
-            }
-        }
+        if(piece.getCode().equals("b") || piece.getCode().equals("n"))
+            return this.isPosibleToEatPiece(piece, coordinate);
         else if(piece.getCode().equals("B") || piece.getCode().equals("N")) {
-            Draught draught = new Draught(piece.getColor());
-            List<Coordinate> coordinatesToMove = new ArrayList<Coordinate>();
-            coordinatesToMove.add(coordinate);
-            for(int i = 7; i >= 2; i--)
-            {
-                coordinatesToMove.addAll(coordinate.getDiagonalCoordinates(i));
-            }
-            Coordinate[] myCoordinatesToMoveArray = new Coordinate[coordinatesToMove.size()];
-            coordinatesToMove.toArray(myCoordinatesToMoveArray);
-            List<Piece> betweenDiagonalPieces = this.board.getBetweenDiagonalPieces(myCoordinatesToMoveArray[0], myCoordinatesToMoveArray[1]);
-            for(int i = 1; i < myCoordinatesToMoveArray.length; i++)
-            {
-                if (betweenDiagonalPieces.size()>0 && draught.isCorrectDiagonalMovement(betweenDiagonalPieces.size(),0,myCoordinatesToMoveArray[i])==null) {
-                    return true;
-                }
+            return this.isPosibleToEatDraught(piece, coordinate);
+        }
+        return false;
+    }
+
+    private boolean isPosibleToEatPiece(Piece piece, Coordinate coordinate){
+        List<Coordinate> coordinates = coordinate.getDiagonalCoordinates(2);
+        for (Coordinate coor : coordinates) {
+            if (this.isCorrectPairMove(0, coordinate, coor) == null) return true;
+        }
+        return false;
+    }
+
+    private boolean isPosibleToEatDraught(Piece piece, Coordinate coordinate){
+        Draught draught = new Draught(piece.getColor());
+        List<Coordinate> coordinatesToMove = new ArrayList<Coordinate>();
+        coordinatesToMove.add(coordinate);
+        for(int i = 7; i >= 2; i--)
+        {
+            coordinatesToMove.addAll(coordinate.getDiagonalCoordinates(i));
+        }
+        Coordinate[] myCoordinatesToMoveArray = new Coordinate[coordinatesToMove.size()];
+        coordinatesToMove.toArray(myCoordinatesToMoveArray);
+        List<Piece> betweenDiagonalPieces = this.board.getBetweenDiagonalPieces(myCoordinatesToMoveArray[0], myCoordinatesToMoveArray[1]);
+        for(int i = 1; i < myCoordinatesToMoveArray.length; i++)
+        {
+            if (betweenDiagonalPieces.size()>0 && draught.isCorrectDiagonalMovement(betweenDiagonalPieces.size(),0,myCoordinatesToMoveArray[i])==null) {
+                return true;
             }
         }
         return false;
