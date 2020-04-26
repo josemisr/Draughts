@@ -76,9 +76,6 @@ public class Game {
             this.board.remove(forRemoving);
         }
         this.board.move(coordinates[pair], coordinates[pair + 1]);
-        if (this.board.getPiece(coordinates[pair + 1]).isLimit(coordinates[pair + 1])) {
-            Color color = this.board.getColor(coordinates[pair + 1]);
-        }
     }
 
     private void checkMovementsColor(List<Coordinate> canEatCoordinates,List<Coordinate> removedCoordinates,int pair, Coordinate...coordinates){
@@ -107,9 +104,6 @@ public class Game {
         Piece piece = this.getPiece(coordinate);
         if(piece.getCode().equals("b") || piece.getCode().equals("n"))
             return this.isPosibleToEatPiece(piece, coordinate);
-        else if(piece.getCode().equals("B") || piece.getCode().equals("N")) {
-            return this.isPosibleToEatDraught(piece, coordinate);
-        }
         return false;
     }
 
@@ -118,10 +112,6 @@ public class Game {
         for (Coordinate coor : coordinates) {
             if (this.isCorrectPairMove(0, coordinate, coor) == null) return true;
         }
-        return false;
-    }
-
-    private boolean isPosibleToEatDraught(Piece piece, Coordinate coordinate){
         return false;
     }
 
