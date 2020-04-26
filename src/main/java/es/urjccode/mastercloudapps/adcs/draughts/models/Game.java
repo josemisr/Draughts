@@ -37,7 +37,7 @@ public class Game {
         Error error = null;
         List<Coordinate> removedCoordinates = new ArrayList<Coordinate>();
         int pair = 0;
-        List<Coordinate> removedCoordinatesBadMovement = new ArrayList<Coordinate>();
+        List<Coordinate> canEatCoordinates= new ArrayList<Coordinate>();
         do {
             error = this.isCorrectPairMove(pair, coordinates);
             if (error == null) {
@@ -45,13 +45,13 @@ public class Game {
                 if(removedCoordinates.size() ==0 ){
                     for (Coordinate coordinate : mv)
                         if(this.getPiece(coordinate)!= this.getPiece(coordinates[pair]))
-                            this.badMovement(removedCoordinatesBadMovement, coordinate);
+                            this.checkPossibleBadMovement(canEatCoordinates, coordinate);
                 }
                 this.pairMove(removedCoordinates, pair, coordinates);
-                if(removedCoordinates.size()==0 && removedCoordinatesBadMovement.size()>0 ){
-                    int number = new Random().nextInt(removedCoordinatesBadMovement.size());;
-                    removedCoordinates.add(0,removedCoordinatesBadMovement.get(number));//borra la actual, no for removing
-                    this.board.remove(removedCoordinatesBadMovement.get(number));
+                if(removedCoordinates.size()==0 && canEatCoordinates.size()>0 ){
+                    int number = new Random().nextInt(canEatCoordinates.size());;
+                    removedCoordinates.add(0,canEatCoordinates.get(number));//borra la actual, no for removing
+                    this.board.remove(canEatCoordinates.get(number));
                 }
                 pair++;
             }
@@ -92,7 +92,7 @@ public class Game {
         }
     }
 
-    private void badMovement(List<Coordinate> removedCoordinates, Coordinate coordinate) {
+    private void checkPossibleBadMovement(List<Coordinate> removedCoordinates, Coordinate coordinate) {
         if (this.isPossibleToEat(coordinate)) {
             removedCoordinates.add(0, coordinate);
         }
