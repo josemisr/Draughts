@@ -115,28 +115,19 @@ public class Game {
             }
         }
         else if(piece.getCode().equals("B") || piece.getCode().equals("N")) {
-            Draught d = new Draught(piece.getColor());
-            List<Coordinate> coordinates = new ArrayList<Coordinate>();
-            List<Coordinate> coordinates1 = coordinate.getDiagonalCoordinates(7);
-            List<Coordinate> coordinates2 = coordinate.getDiagonalCoordinates(6);
-            List<Coordinate> coordinates3 = coordinate.getDiagonalCoordinates(5);
-            List<Coordinate> coordinates4 = coordinate.getDiagonalCoordinates(4);
-            List<Coordinate> coordinates5 = coordinate.getDiagonalCoordinates(3);
-            List<Coordinate> coordinates6 = coordinate.getDiagonalCoordinates(2);
-            coordinates.add(coordinate);
-            coordinates.addAll(coordinates1);
-            coordinates.addAll(coordinates2);
-            coordinates.addAll(coordinates3);
-            coordinates.addAll(coordinates4);
-            coordinates.addAll(coordinates5);
-            coordinates.addAll(coordinates6);
-            Coordinate[] myArray = new Coordinate[coordinates.size()];
-            coordinates.toArray(myArray);
-            List<Piece> betweenDiagonalPieces = this.board.getBetweenDiagonalPieces(myArray[0], myArray[1]);
-
-            for(int i = 1; i < myArray.length; i++)
+            Draught draught = new Draught(piece.getColor());
+            List<Coordinate> coordinatesToMove = new ArrayList<Coordinate>();
+            coordinatesToMove.add(coordinate);
+            for(int i = 7; i >= 2; i--)
             {
-                if (betweenDiagonalPieces.size()>0 && d.isCorrectDiagonalMovement(betweenDiagonalPieces.size(),0,myArray[i])==null) {
+                coordinatesToMove.addAll(coordinate.getDiagonalCoordinates(i));
+            }
+            Coordinate[] myCoordinatesToMoveArray = new Coordinate[coordinatesToMove.size()];
+            coordinatesToMove.toArray(myCoordinatesToMoveArray);
+            List<Piece> betweenDiagonalPieces = this.board.getBetweenDiagonalPieces(myCoordinatesToMoveArray[0], myCoordinatesToMoveArray[1]);
+            for(int i = 1; i < myCoordinatesToMoveArray.length; i++)
+            {
+                if (betweenDiagonalPieces.size()>0 && draught.isCorrectDiagonalMovement(betweenDiagonalPieces.size(),0,myCoordinatesToMoveArray[i])==null) {
                     return true;
                 }
             }
